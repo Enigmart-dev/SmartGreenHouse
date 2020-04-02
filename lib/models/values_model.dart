@@ -1,4 +1,0 @@
-class Measurements {
-  double temperature;
-
-}
