@@ -10,7 +10,7 @@ class GreenHouseStates extends Equatable{
 }
 
 class Completed extends GreenHouseStates {
-  final Future<GreenHouseMeasurement> greenhouse;
+  final GreenHouseMeasurement greenhouse;
   Completed({this.greenhouse});
 
   @override

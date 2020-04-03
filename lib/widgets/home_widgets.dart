@@ -30,3 +30,24 @@ class InfoLocation extends StatelessWidget {
     );
   }
 }
+
+class GreenHouseImage extends StatelessWidget {
+  const GreenHouseImage({Key key, this.pathImage}) : super(key: key);
+  final String pathImage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 220,
+      child: Image.asset(pathImage, fit: BoxFit.cover),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4.0),
+          border: Border(
+            top: BorderSide(width: 1, color: Colors.black),
+            left: BorderSide(width: 1, color: Colors.black),
+            right: BorderSide(width: 1, color: Colors.black),
+            bottom: BorderSide(width: 1, color: Colors.black),
+          )),
+    );
+  }
+}

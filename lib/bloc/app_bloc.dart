@@ -8,10 +8,6 @@ class AppBloc extends Bloc<GreenHouseEvents, GreenHouseStates> {
 
   Domain domain;
 
-  AppBloc() {
-    this.domain = Domain();
-  }
-
   @override
   get initialState => Incomplete();
 
@@ -20,9 +16,13 @@ class AppBloc extends Bloc<GreenHouseEvents, GreenHouseStates> {
     switch(event) {
       case GreenHouseEvents.load:
         yield Incomplete();
+        await Future.delayed(const Duration(seconds: 1));
         try {
+          if(domain == null)
+            domain = Domain();
+          print("Completed state yield.");
           yield Completed(
-              greenhouse: domain.getGreenHouse()
+              greenhouse: await domain.getGreenHouse()
           );
         } catch(_) {
           yield Failed();

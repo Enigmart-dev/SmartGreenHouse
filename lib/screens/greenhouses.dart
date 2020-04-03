@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:greenhouse/bloc/app_bloc.dart';
 import 'package:greenhouse/bloc/states.dart';
+import 'package:greenhouse/domain/values_model.dart';
 import 'package:greenhouse/widgets/home_widgets.dart';
 
 class GreenHouseAppBar extends StatelessWidget {
@@ -29,8 +30,10 @@ class GreenHouseAppBar extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text("Smart GreenHouse APP", textAlign: TextAlign.center),
-                    content: Text("Developed by Luigi Cuomo", textAlign: TextAlign.center),
+                    title: Text("Smart GreenHouse APP",
+                        textAlign: TextAlign.center),
+                    content: Text("Developed by Luigi Cuomo",
+                        textAlign: TextAlign.center),
                   );
                 });
           }),
@@ -44,7 +47,7 @@ class GreenHouseAppBar extends StatelessWidget {
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.add),
-          onPressed: (){},
+          onPressed: () {},
           iconSize: 30,
         ),
       ],
@@ -52,14 +55,12 @@ class GreenHouseAppBar extends StatelessWidget {
   }
 }
 
-
 class GreenHousesView extends StatefulWidget {
   @override
   _GreenHousesViewState createState() => _GreenHousesViewState();
 }
 
 class _GreenHousesViewState extends State<GreenHousesView> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +88,8 @@ class _GreenHousesViewState extends State<GreenHousesView> {
 
 class DialogInfoGreenHouse extends StatefulWidget {
   final String pathImage;
-  DialogInfoGreenHouse({Key key, this.pathImage}) : super(key : key);
+
+  DialogInfoGreenHouse({Key key, this.pathImage}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => DialogInfoGreenHouseState();
@@ -152,7 +154,13 @@ class GreenHouseCard extends StatefulWidget {
   State<StatefulWidget> createState() => _GreenHouseCardState();
 }
 
-class _GreenHouseCardState extends State<GreenHouseCard>{
+class _GreenHouseCardState extends State<GreenHouseCard> {
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<AppBloc>(context).add(GreenHouseEvents.load);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,108 +168,114 @@ class _GreenHouseCardState extends State<GreenHouseCard>{
       child: BlocBuilder<AppBloc, GreenHouseStates>(
         builder: (context, state) {
 
-          if ((state is Completed)) {
+          if (state is Completed) {
+
+            final values = state.greenhouse;
+
             return Container(
-            height: 400,
-            margin: EdgeInsets.only(left: 15, right: 15, bottom: 20),
-            child: Card(
-              child: Container(
-                margin: EdgeInsets.only(top: 15, left: 15, right: 15),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    GreenHouseImage(pathImage: this.widget.pathImage),
-                    SizedBox(height: 10),
-                    InfoLocation(),
-                    SizedBox(height: 5),
-                    Divider(thickness: 0.5, color: Colors.grey),
-                    // TO BE REFACTORED !!!
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Tab(
-                            icon: Image.asset(
-                              widget.pathIconsMeasurements['Temperature'],
-                              height: 40,
-                              width: 40,
+              height: 400,
+              margin: EdgeInsets.only(left: 15, right: 15, bottom: 20),
+              child: Card(
+                child: Container(
+                  margin: EdgeInsets.only(top: 15, left: 15, right: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      GreenHouseImage(pathImage: this.widget.pathImage),
+                      SizedBox(height: 10),
+                      InfoLocation(),
+                      SizedBox(height: 5),
+                      Divider(thickness: 0.5, color: Colors.grey),
+                      // TO BE REFACTORED !!!
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Tab(
+                              icon: Image.asset(
+                                widget.pathIconsMeasurements['Temperature'],
+                                height: 40,
+                                width: 40,
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            " : 10",
-                            style: TextStyle(
-                              fontSize: 20,
+                            SizedBox(width: 10),
+                            Text(
+                              values.temperature.temp.toString(),
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
                             ),
-                          ),
-                          Spacer(),
-                          Tab(
-                            icon: Image.asset(
-                              widget.pathIconsMeasurements['Brightness'],
-                              height: 40,
-                              width: 40,
+                            Spacer(),
+                            Tab(
+                              icon: Image.asset(
+                                widget.pathIconsMeasurements['Brightness'],
+                                height: 40,
+                                width: 40,
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            ": 10",
-                            style: TextStyle(
-                              fontSize: 20,
+                            SizedBox(width: 10),
+                            Text(
+                              values.brightness.brightness.toString(),
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 5),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Tab(
-                            icon: Image.asset(
-                              widget.pathIconsMeasurements['Humidity'],
-                              height: 40,
-                              width: 40,
+                      SizedBox(height: 5),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Tab(
+                              icon: Image.asset(
+                                widget.pathIconsMeasurements['Humidity'],
+                                height: 40,
+                                width: 40,
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            ": 10",
-                            style: TextStyle(
-                              fontSize: 20,
+                            SizedBox(width: 10),
+                            Text(
+                              values.humidity.hum.toString(),
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
                             ),
-                          ),
-                          Spacer(),
-                          Tab(
-                            icon: Image.asset(
-                              widget.pathIconsMeasurements['Water Level'],
-                              height: 40,
-                              width: 40,
+                            Spacer(),
+                            Tab(
+                              icon: Image.asset(
+                                widget.pathIconsMeasurements['Water Level'],
+                                height: 40,
+                                width: 40,
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            ": 10",
-                            style: TextStyle(
-                              fontSize: 20,
+                            SizedBox(width: 10),
+                            Text(
+                              values.waterLevel.level.toString(),
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+                elevation: 10.0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4.0)),
               ),
-              elevation: 10.0,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
-            ),
-        );
-          } else if (state is Incomplete){
+            );
+          } else if (state is Incomplete) {
             return Center(child: CircularProgressIndicator());
+          } else if (state is Failed) {
+            return Center(child: Text("Failed"));
           } else {
-            return Center(child: Text("not loaded."));
+            return Center(child: Text("Not loaded"));
           }
         },
       ),
@@ -274,29 +288,3 @@ class _GreenHouseCardState extends State<GreenHouseCard>{
     );
   }
 }
-
-class GreenHouseImage extends StatelessWidget {
-  const GreenHouseImage({Key key, this.pathImage}) : super(key: key);
-  final String pathImage;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 220,
-      child: Image.asset(
-        pathImage,
-        fit: BoxFit.cover
-      ),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4.0),
-          border: Border(
-            top: BorderSide(width: 1, color: Colors.black),
-            left: BorderSide(width: 1, color: Colors.black),
-            right: BorderSide(width: 1, color: Colors.black),
-            bottom: BorderSide(width: 1, color: Colors.black),
-          )),
-    );
-  }
-}
-
-

@@ -9,14 +9,17 @@ import 'package:greenhouse/domain/values_model.dart';
 
 class Domain {
   Future<GreenHouseMeasurement> greenhouse;
-  Repository repo;
+  Repository repo = Repository();
 
-  Future<GreenHouseMeasurement> getGreenHouse() async{
+  Future<GreenHouseMeasurement> getGreenHouse() {
+    print("getGreenHouse() executed");
     _getGHFromAPI();
     return greenhouse;
   }
 
-  void _getGHFromAPI() async {
-    greenhouse = repo.fetchMeasurements();
+  void _getGHFromAPI() {
+    this.greenhouse = repo.fetchMeasurements().catchError((error, stacktrace) {
+      print("Error from _getGHFromAPI(): $error");
+    });
   }
 }

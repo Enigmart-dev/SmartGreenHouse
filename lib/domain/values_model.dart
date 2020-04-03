@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 
+class Value<T> {T value;}
+
 class GreenHouseMeasurement {
-  Temperature temp;
+  Temperature temperature;
   Humidity humidity;
   WaterLevel waterLevel;
   Brightness brightness;
 
   GreenHouseMeasurement({
-    this.temp,
+    this.temperature,
     this.humidity,
     this.waterLevel,
     this.brightness
   });
 
-  factory GreenHouseMeasurement.fromJson(Map<String, String> json) {
+  factory GreenHouseMeasurement.fromJson(Map<String, dynamic> json) {
     return GreenHouseMeasurement(
-      temp: Temperature(temp: double.parse(json["temperature"])),
+      temperature: Temperature(temp: double.parse(json["temperature"])),
       humidity: Humidity(hum: double.parse(json["humidity_D"])),
       waterLevel: WaterLevel(level: double.parse(json["waterlevel"])),
       brightness: Brightness(brightness: double.parse(json["light"])),
