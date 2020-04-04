@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-class Value<T> {T value;}
-
 class GreenHouseMeasurement {
   Temperature temperature;
   Humidity humidity;
@@ -27,20 +25,25 @@ class GreenHouseMeasurement {
 
 class Temperature {
   double temp;
+  String unit = "°C";
   Temperature({@required this.temp}) : assert(temp > 0 && temp < 35);
 }
 
 class Humidity {
   double hum;
+  String unit = "%";
   Humidity({@required this.hum}) : assert(hum > 0 && hum < 100);
 }
 
 class WaterLevel {
   double level;
+  String unit = "%";
   WaterLevel({@required this.level}) : assert(level > 0 && level < 100);
 }
 
 class Brightness {
   double brightness;
+  String unit = "lm";
   Brightness({@required this.brightness}) : assert(brightness > 0 && brightness < 35);
 }
+

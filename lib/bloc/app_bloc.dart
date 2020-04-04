@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:greenhouse/bloc/states.dart';
 import 'package:greenhouse/domain/domain.dart';
 
-enum GreenHouseEvents { load }
+enum GreenHouseEvents { load, refresh }
 
 class AppBloc extends Bloc<GreenHouseEvents, GreenHouseStates> {
 
@@ -16,18 +16,25 @@ class AppBloc extends Bloc<GreenHouseEvents, GreenHouseStates> {
     switch(event) {
       case GreenHouseEvents.load:
         yield Incomplete();
-        await Future.delayed(const Duration(seconds: 1));
+        await Future.delayed(const Duration(milliseconds: 600));
         try {
           if(domain == null)
             domain = Domain();
-          print("Completed state yield.");
-          yield Completed(
-              greenhouse: await domain.getGreenHouse()
-          );
+          yield Completed(greenhouse: await domain.getGreenHouse());
         } catch(_) {
           yield Failed();
         }
         break;
+
+      case GreenHouseEvents.refresh:
+        try {
+          await Future.delayed(const Duration(milliseconds: 800));
+          yield Completed(
+              greenhouse: await domain.getGreenHouse()
+          );
+        } catch(_) {
+          yield state;
+        }
     }
   }
 
