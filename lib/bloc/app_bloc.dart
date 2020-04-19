@@ -16,7 +16,7 @@ class AppBloc extends Bloc<GreenHouseEvents, GreenHouseStates> {
     switch(event) {
       case GreenHouseEvents.load:
         yield Incomplete();
-        await Future.delayed(const Duration(milliseconds: 600));
+        await Future.delayed(const Duration(milliseconds: 200));
         try {
           if(domain == null)
             domain = Domain();

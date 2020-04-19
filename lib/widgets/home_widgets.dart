@@ -6,11 +6,11 @@ class InfoLocation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 5, right: 5),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       child: Row(
         children: <Widget>[
           Text(
-            "ITI G. FERRARIS",
+            "Owner",
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
@@ -18,7 +18,7 @@ class InfoLocation extends StatelessWidget {
           ),
           Spacer(),
           Text(
-            "Scampia (NA)",
+            "Location",
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w300,

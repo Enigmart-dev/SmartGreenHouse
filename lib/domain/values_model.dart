@@ -26,7 +26,7 @@ class GreenHouseMeasurement {
 class Temperature {
   double temp;
   String unit = "°C";
-  Temperature({@required this.temp}) : assert(temp > 0 && temp < 35);
+  Temperature({@required this.temp}) : assert(temp > 0 && temp < 55);
 }
 
 class Humidity {
@@ -44,6 +44,6 @@ class WaterLevel {
 class Brightness {
   double brightness;
   String unit = "lm";
-  Brightness({@required this.brightness}) : assert(brightness > 0 && brightness < 35);
+  Brightness({@required this.brightness}) : assert(brightness > 0 && brightness < 100);
 }
 
